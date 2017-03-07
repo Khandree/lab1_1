@@ -23,49 +23,24 @@ public class OfferItem {
 	// product
 	private Product product;
 	private int quantity;
-	private BigDecimal totalCost;
-	private String currency;
-
-	// discount
-	private String discountCause;
-	private BigDecimal discount;
+	private Money totalCost;
+	private Discount discount;
 
 	public OfferItem(Product product, int quantity) {
-		this(product, quantity, null, null);
+		this(product, quantity, null);
 	}
 
-	public OfferItem(Product product, int quantity, BigDecimal discount, String discountCause) {
+	public OfferItem(Product product, int quantity, Discount discount) {
 
 		this.product = product;
 		this.quantity = quantity;
 		this.discount = discount;
-		this.discountCause = discountCause;
 
 		BigDecimal discountValue = new BigDecimal(0);
 		if (discount != null)
-			discountValue = discountValue.subtract(discount);
+			discountValue = discountValue.subtract(discount.getDiscount().getCost());
 
-		this.totalCost = product.getProductPrice().multiply(new BigDecimal(quantity)).subtract(discountValue);
-	}
-
-	public BigDecimal getTotalCost() {
-		return totalCost;
-	}
-
-	public String getTotalCostCurrency() {
-		return currency;
-	}
-
-	public BigDecimal getDiscount() {
-		return discount;
-	}
-
-	public String getDiscountCause() {
-		return discountCause;
-	}
-
-	public int getQuantity() {
-		return quantity;
+		this.totalCost.setCost(product.getProductPrice().getCost().multiply(new BigDecimal(quantity)).subtract(discountValue));
 	}
 	
 	public Product getProduct() {
@@ -156,19 +131,22 @@ public class OfferItem {
 		if (quantity != other.quantity)
 			return false;
 
-		BigDecimal max, min;
-		if (totalCost.compareTo(other.totalCost) > 0) {
+		Money max = new Money(new BigDecimal(0), " ");
+		Money min = new Money(new BigDecimal(0), " ");
+		
+		if (totalCost.getCost().compareTo(other.totalCost.getCost()) > 0) {
 			max = totalCost;
 			min = other.totalCost;
 		} else {
 			max = other.totalCost;
 			min = totalCost;
 		}
+		Money difference = new Money(new BigDecimal(0), " ");
+		difference.setCost(max.getCost().subtract(min.getCost()));
+		Money acceptableDelta = new Money(new BigDecimal(0), " ");
+		acceptableDelta.setCost(max.getCost().multiply(new BigDecimal(delta / 100)));
 
-		BigDecimal difference = max.subtract(min);
-		BigDecimal acceptableDelta = max.multiply(new BigDecimal(delta / 100));
-
-		return acceptableDelta.compareTo(difference) > 0;
+		return acceptableDelta.getCost().compareTo(difference.getCost()) > 0;
 	}
 
 }
