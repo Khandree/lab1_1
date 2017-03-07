@@ -22,21 +22,15 @@ public class OfferItem {
 
 	// product
 	private String productId;
-
 	private BigDecimal productPrice;
-
 	private String productName;
-
 	private Date productSnapshotDate;
-
 	private String productType;
 
 	private int quantity;
-
 	private BigDecimal totalCost;
-
 	private String currency;
-
+        
 	// discount
 	private String discountCause;
 
@@ -168,7 +162,7 @@ public class OfferItem {
 
 	/**
 	 * 
-	 * @param item
+	 * @param other
 	 * @param delta
 	 *            acceptable percentage difference
 	 * @return
