@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Offer {
-private List<OfferItem> availabeItems = new ArrayList<OfferItem>();
 	
+	private List<OfferItem> availabeItems = new ArrayList<OfferItem>();
 	private List<OfferItem> unavailableItems = new ArrayList<OfferItem>();
 	
 	
@@ -26,8 +26,7 @@ private List<OfferItem> availabeItems = new ArrayList<OfferItem>();
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((availabeItems == null) ? 0 : availabeItems.hashCode());
+		result = prime * result + ((availabeItems == null) ? 0 : availabeItems.hashCode());
 		return result;
 	}
 
