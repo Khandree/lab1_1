@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Offer {
+    private static final int PRIME_VALUE = 31;
+    private static final int RESULT_VALUE = 1;
 private List<OfferItem> availabeItems = new ArrayList<OfferItem>();
 	
 	private List<OfferItem> unavailableItems = new ArrayList<OfferItem>();
@@ -24,9 +26,9 @@ private List<OfferItem> availabeItems = new ArrayList<OfferItem>();
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
+
+		int result = RESULT_VALUE;
+		result = PRIME_VALUE * result
 				+ ((availabeItems == null) ? 0 : availabeItems.hashCode());
 		return result;
 	}
