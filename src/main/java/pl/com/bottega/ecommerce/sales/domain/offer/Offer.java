@@ -52,9 +52,9 @@ private List<OfferItem> availabeItems = new ArrayList<OfferItem>();
 
 	/**
 	 * 
-	 * @param seenOffer
+	 * @param seenOffer object offer which we can compare
 	 * @param delta acceptable difference in percent
-	 * @return
+	 * @return boolean if seenOffer is null return false, if it is the same value return true
 	 */
 	public boolean sameAs(Offer seenOffer, double delta) {
 		if (! (availabeItems.size() == seenOffer.availabeItems.size()))
