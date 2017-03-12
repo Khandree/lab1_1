@@ -16,6 +16,12 @@ public class Product {
 
     private String productType;
 
+    public Product(BigDecimal productPrice, String productName, Date productSnapshotDate, String productType) {
+        this.productPrice = productPrice;
+        this.productName = productName;
+        this.productSnapshotDate = productSnapshotDate;
+        this.productType = productType;
+    }
 
     public BigDecimal getProductPrice(){
         return productPrice;
