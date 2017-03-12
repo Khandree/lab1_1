@@ -29,4 +29,27 @@ public class Money {
     public void setCurrency(String currency){
         this.currency = currency;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (null == obj)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Money other = (Money) obj;
+        if (null == this.value) {
+            if (null != other.value)
+                return false;
+        } else if (this.value != other.value)
+            return false;
+        if (null == this.currency) {
+            if (null != other.currency)
+                return false;
+        } else if (this.currency != other.currency)
+            return false;
+
+        return true;
+    }
 }
