@@ -10,5 +10,9 @@ package pl.com.bottega.ecommerce.sales.domain.offer;
  * @author 187472
  */
 public class Discount {
-    
+ 
+	private String discountCause;
+	private Money discount;
+	
+	
 }

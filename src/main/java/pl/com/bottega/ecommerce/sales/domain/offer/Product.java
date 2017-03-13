@@ -16,7 +16,7 @@ public class Product {
 
     private final String productId;
 
-    private final MoneyAmount productPrice;
+    private final Money productPrice;
 
     private final String productName;
 
@@ -24,7 +24,7 @@ public class Product {
 
     private final String productType;
 
-    public Product(String productId, MoneyAmount productPrice, String productName, Date productSnapshotDate, String productType) {
+    public Product(String productId, Money productPrice, String productName, Date productSnapshotDate, String productType) {
         this.productId = productId;
         this.productPrice = productPrice;
         this.productName = productName;
@@ -36,7 +36,7 @@ public class Product {
         return productId;
     }
 
-    public MoneyAmount getProductPrice() {
+    public Money getProductPrice() {
         return productPrice;
     }
 

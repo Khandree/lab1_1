@@ -58,22 +58,22 @@ private List<OfferItem> availabeItems = new ArrayList<OfferItem>();
 		if (! (availabeItems.size() == seenOffer.availabeItems.size()))
 			return false;
 		
-		for (OfferItem item : availabeItems) {
-			OfferItem sameItem = seenOffer.findItem(item.getProductId());
-			if (sameItem == null)
-				return false;
-			if (!sameItem.sameAs(item, delta))
-				return false;
-		}
+//		for (OfferItem item : availabeItems) {
+//			OfferItem sameItem = seenOffer.findItem(item.getProductId());
+//			if (sameItem == null)
+//				return false;
+//			if (!sameItem.sameAs(item, delta))
+//				return false;
+//		}
 		
 		return true;
 	}
 
 	private OfferItem findItem(String productId) {
-		for (OfferItem item : availabeItems){
-			if (item.getProductId().equals(productId))
-				return item;
-		}
+//		for (OfferItem item : availabeItems){
+//			if (item.getProductId().equals(productId))
+//				return item;
+//		}
 		return null;
 	}
 	
