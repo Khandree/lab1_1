@@ -5,77 +5,78 @@ import java.util.List;
 import java.util.logging.Logger;
 
 public class Offer {
-	private final static Logger log = Logger.getLogger("OfferLogger");
-	private List<OfferItem> availabeItems = new ArrayList<OfferItem>();
 
-	private List<OfferItem> unavailableItems = new ArrayList<OfferItem>();
+    private final static Logger log = Logger.getLogger("OfferLogger");
+    private List<OfferItem> availabeItems = new ArrayList<OfferItem>();
 
-	public Offer(List<OfferItem> availabeItems, List<OfferItem> unavailableItems) {
-		this.availabeItems = availabeItems;
-		this.unavailableItems = unavailableItems;
-	}
+    private List<OfferItem> unavailableItems = new ArrayList<OfferItem>();
 
-	public List<OfferItem> getAvailabeItems() {
-		return availabeItems;
-	}
+    public Offer(List<OfferItem> availabeItems, List<OfferItem> unavailableItems) {
+        this.availabeItems = availabeItems;
+        this.unavailableItems = unavailableItems;
+    }
 
-	public List<OfferItem> getUnavailableItems() {
-		return unavailableItems;
-	}
+    public List<OfferItem> getAvailabeItems() {
+        return availabeItems;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((availabeItems == null) ? 0 : availabeItems.hashCode());
-		return result;
-	}
+    public List<OfferItem> getUnavailableItems() {
+        return unavailableItems;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Offer other = (Offer) obj;
-		if (availabeItems == null) {
-			if (other.availabeItems != null)
-				return false;
-		} else if (!availabeItems.equals(other.availabeItems))
-			return false;
-		return true;
-	}
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((availabeItems == null) ? 0 : availabeItems.hashCode());
+        return result;
+    }
 
-	/**
-	 * 
-	 * @param seenOffer
-	 * @param delta
-	 *            acceptable difference in percent
-	 * @return
-	 */
-	public boolean sameAs(Offer seenOffer, double delta) {
-		if (!(availabeItems.size() == seenOffer.availabeItems.size()))
-			return false;
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Offer other = (Offer) obj;
+        if (availabeItems == null) {
+            if (other.availabeItems != null)
+                return false;
+        } else if (!availabeItems.equals(other.availabeItems))
+            return false;
+        return true;
+    }
 
-		for (OfferItem item : availabeItems) {
-			OfferItem sameItem = seenOffer.findItem(item.getProduct().getProductId());
-			if (sameItem == null)
-				return false;
-			if (!sameItem.sameAs(item, delta))
-				return false;
-		}
+    /**
+     * 
+     * @param seenOffer
+     * @param delta
+     *            acceptable difference in percent
+     * @return
+     */
+    public boolean sameAs(Offer seenOffer, double delta) {
+        if (!(availabeItems.size() == seenOffer.availabeItems.size()))
+            return false;
 
-		return true;
-	}
+        for (OfferItem item : availabeItems) {
+            OfferItem sameItem = seenOffer.findItem(item.getProduct().getProductId());
+            if (sameItem == null)
+                return false;
+            if (!sameItem.sameAs(item, delta))
+                return false;
+        }
 
-	private OfferItem findItem(String productId) {
-		for (OfferItem item : availabeItems) {
-			if (item.getProduct().getProductId().equals(productId))
-				return item;
-		}
-		return null;
-	}
+        return true;
+    }
+
+    private OfferItem findItem(String productId) {
+        for (OfferItem item : availabeItems) {
+            if (item.getProduct().getProductId().equals(productId))
+                return item;
+        }
+        return null;
+    }
 
 }
