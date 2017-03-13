@@ -13,10 +13,10 @@ import java.math.BigDecimal;
  */
 public class Discount {
     private String discountCause;
-    private BigDecimal discount;
+    private BigDecimal discountValue;
 
     public BigDecimal getDiscount() {
-        return discount;
+        return discountValue;
     }
 
     public String getDiscountCause() {
@@ -28,7 +28,7 @@ public class Discount {
         final int prime = 31;
         int result = 1;
         result = prime * result
-                + ((discount == null) ? 0 : discount.hashCode());
+                + ((discountValue == null) ? 0 : discountValue.hashCode());
         result = prime * result + ((discountCause == null) ? 0 : discountCause.hashCode());
         return result;
     }
@@ -42,10 +42,10 @@ public class Discount {
         if (getClass() != obj.getClass())
             return false;
         Discount disc = (Discount) obj;
-        if (discount == null) {
-            if (disc.discount != null)
+        if (discountValue == null) {
+            if (disc.discountValue != null)
                 return false;
-        } else if (!discount.equals(disc.discount))
+        } else if (!discountValue.equals(disc.discountValue))
             return false;
         if (discountCause == null) {
             if (disc.discountCause != null)
