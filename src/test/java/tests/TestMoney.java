@@ -33,15 +33,15 @@ public class TestMoney {
 		assertEquals(0, money_1.compareTo(money_2));
 		money_1 = new Money(1000);
 		money_2 = new Money(2000);
-		assertEquals(1, money_1.compareTo(money_2));
+		assertEquals(-1, money_1.compareTo(money_2));
 		money_1 = new Money(2000);
 		money_2 = new Money(1000);
-		assertEquals(-1, money_1.compareTo(money_2));
+		assertEquals(1, money_1.compareTo(money_2));
 		money_1 = new Money(0);
 		money_2 = new Money(4);
 		int cmp = money_1.compareTo(money_2);
 		System.out.println(cmp);
-		assertEquals(1, cmp);
+		assertEquals(-1, cmp);
 	}
 
 	@Test
@@ -51,10 +51,10 @@ public class TestMoney {
 		assertEquals(0, money_1.compareTo(money_2));
 		money_1 = new Money(1000, Currency.getInstance(Locale.ITALY));
 		money_2 = new Money(2000, Currency.getInstance("EUR"));
-		assertEquals(1, money_1.compareTo(money_2));
+		assertEquals(-1, money_1.compareTo(money_2));
 		money_1 = new Money(2000, Currency.getInstance("EUR"));
 		money_2 = new Money(1000, Currency.getInstance(Locale.ITALY));
-		assertEquals(-1, money_1.compareTo(money_2));
+		assertEquals(1, money_1.compareTo(money_2));
 	}
 
 	@Test
@@ -64,16 +64,16 @@ public class TestMoney {
 		assertEquals(0, money_1.compareTo(money_2));
 		money_1 = new Money(1000, RoundingMode.UP);
 		money_2 = new Money(2000, RoundingMode.DOWN);
-		assertEquals(1, money_1.compareTo(money_2));
+		assertEquals(-1, money_1.compareTo(money_2));
 		money_1 = new Money(2000, RoundingMode.DOWN);
 		money_2 = new Money(1000, RoundingMode.UP);
-		assertEquals(-1, money_1.compareTo(money_2));
+		assertEquals(1, money_1.compareTo(money_2));
 		money_1 = new Money(1000, RoundingMode.DOWN);
 		money_2 = new Money(2000, RoundingMode.UP);
-		assertEquals(1, money_1.compareTo(money_2));
+		assertEquals(-1, money_1.compareTo(money_2));
 		money_1 = new Money(2000, RoundingMode.UP);
 		money_2 = new Money(1000, RoundingMode.DOWN);
-		assertEquals(-1, money_1.compareTo(money_2));
+		assertEquals(1, money_1.compareTo(money_2));
 	}
 
 	@Test
