@@ -14,12 +14,12 @@ import java.util.logging.Logger;
  *
  * @author 187472
  */
-public class Money implements Comparable<Money> {
+public final class Money implements Comparable<Money> {
 	private final static Logger log = Logger.getLogger("MoneyLogger");
 	private BigDecimal amount;
 	private final Currency currency;
-	private final Currency DEFAULT_CURRENCY = Currency.getInstance("PLN");
-	private final RoundingMode DEFAULT_MODE = RoundingMode.DOWN;
+	private static final Currency DEFAULT_CURRENCY = Currency.getInstance("PLN");
+	private static final RoundingMode DEFAULT_MODE = RoundingMode.DOWN;
 	private final RoundingMode mode;
 
 	public BigDecimal getAmount() {
@@ -34,39 +34,32 @@ public class Money implements Comparable<Money> {
 	}
 
 	public Money(BigDecimal amount, RoundingMode mode) {
-		super();
-		this.amount = amount;
-		this.mode = mode;
-		this.currency = DEFAULT_CURRENCY;
-	}
-
-	public Money(BigDecimal amount, Currency currency) {
-		super();
-		this.amount = amount;
-		this.currency = currency;
-		this.mode = DEFAULT_MODE;
+		this(amount,DEFAULT_CURRENCY,mode);
 	}
 
 	public Money(BigDecimal amount, Currency currency, RoundingMode mode) {
 		this.amount = amount;
 		this.currency = currency;
 		this.mode = mode;
+		this.amount.setScale(currency.getDefaultFractionDigits(), mode);
+	}
+
+	public Money(BigDecimal amount, Currency currency) {
+		this(amount, currency, DEFAULT_MODE);
 	}
 
 	public Money(int amount) {
-		this.amount = BigDecimal.valueOf(amount);
-		currency = DEFAULT_CURRENCY;
-		mode = DEFAULT_MODE;
+		this(BigDecimal.valueOf(amount), DEFAULT_CURRENCY, DEFAULT_MODE);
 	}
 
 	public Money(int i, Currency instance) {
-		this(BigDecimal.valueOf(i), instance);
+		this(BigDecimal.valueOf(i), instance, DEFAULT_MODE);
 	}
 
 	public Money(int i, RoundingMode up) {
-		this(BigDecimal.valueOf(i), up);
+		this(BigDecimal.valueOf(i), DEFAULT_CURRENCY, up);
 	}
-	
+
 	public Money(double d) {
 		this.amount = BigDecimal.valueOf(d);
 		currency = DEFAULT_CURRENCY;
@@ -80,45 +73,50 @@ public class Money implements Comparable<Money> {
 		this.amount.setScale(currency.getDefaultFractionDigits(), mode);
 	}
 
-	public Money add(Money money){
-		if(money.currency != this.currency || money.mode != this.mode)
+	public Money add(Money money) {
+		if (money.currency != this.currency || money.mode != this.mode)
 			return null;
 		else {
 			return new Money(this.amount.add(money.amount), this.currency, this.mode);
 		}
 	}
-	
-	public Money subtract(Money money){
-		if(money.currency != this.currency || money.mode != this.mode)
+
+	public Money subtract(Money money) {
+		if (money.currency != this.currency || money.mode != this.mode)
 			return null;
 		else {
 			return new Money(this.amount.subtract(money.amount), this.currency, this.mode);
 		}
 	}
-	
-	public Money multiply(Money money){
-		if(money.currency != this.currency || money.mode != this.mode)
+
+	public Money multiply(Money money) {
+		if (money.currency != this.currency || money.mode != this.mode)
 			return null;
 		else {
 			return new Money(this.amount.multiply(money.amount), this.currency, this.mode);
 		}
 	}
-	public Money multiply(double money){
-		if(Double.isNaN(money))
+
+	public Money multiply(double money) {
+		if (Double.isNaN(money))
 			return null;
 		else {
 			BigDecimal def = new BigDecimal(money);
 			def.setScale(currency.getDefaultFractionDigits(), mode);
-			return new Money(this.amount.multiply(def));
+			return new Money(this.amount.multiply(def), this.currency, this.mode);
 		}
 	}
-	public Money divide(int money){
-		if(money == 0)
+
+	public Money divide(double money) {
+		if (money == 0)
 			return null;
 		else {
-			return new Money(this.amount.divide(BigDecimal.valueOf(money)));
+			BigDecimal def = new BigDecimal(money);
+			def.setScale(currency.getDefaultFractionDigits(), mode);
+			return new Money(this.amount.divide(def), this.currency, this.mode);
 		}
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -138,13 +136,13 @@ public class Money implements Comparable<Money> {
 		if (getClass() != obj.getClass())
 			return false;
 		Money other = (Money) obj;
-		boolean result = (this.amount.equals(other.amount) );
-		log.info("Amount equals: "+result +" ["+this.amount+" : "+other.amount+"]");
-	    result = result && (this.currency.equals(other.currency) );
-	    log.info("Currency equals: "+result);
-	    result = result && (this.mode == other.mode);
-	    log.info("Mode equals: "+result);
-	    return result;
+		boolean result = (this.amount.equals(other.amount));
+		log.info("Amount equals: " + result + " [" + this.amount + " : " + other.amount + "]");
+		result = result && (this.currency.equals(other.currency));
+		log.info("Currency equals: " + result + " [" + this.currency + " : " + other.currency+ "]");
+		result = result && (this.mode == other.mode);
+		log.info("Mode equals: " + result + " [" + this.mode + " : " + other.mode + "]");
+		return result;
 	}
 
 	@Override
@@ -154,11 +152,14 @@ public class Money implements Comparable<Money> {
 
 	public int compareTo(Money arg0) {
 		int result = arg0.amount.compareTo(this.amount);
-		if(result != 0) return result;
+		if (result != 0)
+			return result;
 		result = arg0.currency.getCurrencyCode().compareTo(this.currency.getCurrencyCode());
-		if(result != 0) return result;
+		if (result != 0)
+			return result;
 		result = arg0.mode.compareTo(this.mode);
-		if(result != 0) return result;
+		if (result != 0)
+			return result;
 		return 0;
 	}
 

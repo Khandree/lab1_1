@@ -20,12 +20,19 @@ public class Discount {
 
 	public Discount(Money discountValue) {
 		this.valueDiscount = discountValue;
-		this.type = DiscountType.VALUE;
+		if (discountValue != null)
+			this.type = DiscountType.VALUE;
+		else {
+			this.type = DiscountType.PROCENTAGE;
+			procentageDiscount = 0;
+		}
 	}
+
 	public Discount(double procentageDiscount) {
 		this.procentageDiscount = procentageDiscount;
 		this.type = DiscountType.PROCENTAGE;
 	}
+
 	public Money price(Money currentPrice) {
 		switch (type) {
 		case PROCENTAGE:
