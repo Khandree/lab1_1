@@ -1,11 +1,11 @@
 package tests;
 
-
-
 import static org.junit.Assert.*;
 
+import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Currency;
+import java.util.Locale;
 
 import org.junit.Test;
 
@@ -20,41 +20,91 @@ public class TestMoney {
 		Money money_2 = new Money(1000);
 		assertEquals(money_1, money_2);
 	}
-	
+
+	@Test
+	public void testCompareDefaultModifiers() {
+		Money money_1 = new Money(1000);
+		Money money_2 = new Money(1000);
+		assertEquals(money_1.compareTo(money_2), 0);
+		money_1 = new Money(1000);
+		money_2 = new Money(2000);
+		assertEquals(money_1.compareTo(money_2), 1);
+		money_1 = new Money(2000);
+		money_2 = new Money(1000);
+		assertEquals(money_1.compareTo(money_2), -1);
+	}
+
+	@Test
+	public void testCompareCurrencyAmount() {
+		Money money_1 = new Money(1000, Currency.getInstance("EUR"));
+		Money money_2 = new Money(1000, Currency.getInstance("EUR"));
+		assertEquals(money_1.compareTo(money_2), 0);
+		money_1 = new Money(1000, Currency.getInstance(Locale.ITALY));
+		money_2 = new Money(2000, Currency.getInstance("EUR"));
+		assertEquals(money_1.compareTo(money_2), 1);
+		money_1 = new Money(2000, Currency.getInstance("EUR"));
+		money_2 = new Money(1000, Currency.getInstance(Locale.ITALY));
+		assertEquals(money_1.compareTo(money_2), -1);
+	}
+
+	@Test
+	public void testCompareModeAmount() {
+		Money money_1 = new Money(1000, RoundingMode.UP);
+		Money money_2 = new Money(1000, RoundingMode.UP);
+		assertEquals(money_1.compareTo(money_2), 0);
+		money_1 = new Money(1000, RoundingMode.UP);
+		money_2 = new Money(2000, RoundingMode.DOWN);
+		assertEquals(money_1.compareTo(money_2), 1);
+		money_1 = new Money(2000, RoundingMode.DOWN);
+		money_2 = new Money(1000, RoundingMode.UP);
+		assertEquals(money_1.compareTo(money_2), -1);
+		money_1 = new Money(1000, RoundingMode.DOWN);
+		money_2 = new Money(2000, RoundingMode.UP);
+		assertEquals(money_1.compareTo(money_2), 1);
+		money_1 = new Money(2000, RoundingMode.UP);
+		money_2 = new Money(1000, RoundingMode.DOWN);
+		assertEquals(money_1.compareTo(money_2), -1);
+	}
+
 	@Test
 	public void testIfAreSameCurrency() {
 		Money money_1 = new Money(1000, Currency.getInstance("EUR"));
 		Money money_2 = new Money(1000, Currency.getInstance("EUR"));
 		assertEquals(money_1, money_2);
-	}
-	
-	@Test
-	public void testIfAreNotSameCurrency() {
-		Money money_1 = new Money(1000, Currency.getInstance("EUR"));
-		Money money_2 = new Money(1000, Currency.getInstance("PLN"));
+		money_1 = new Money(1000, Currency.getInstance("EUR"));
+		money_2 = new Money(1000, Currency.getInstance("PLN"));
 		assertNotEquals(money_1, money_2);
 	}
-	
+
 	@Test
 	public void testIfAreSameRounding() {
 		Money money_1 = new Money(1000, RoundingMode.UP);
 		Money money_2 = new Money(1000, RoundingMode.UP);
 		assertEquals(money_1, money_2);
-	}
-	
-	@Test
-	public void testIfAreNotSameRounding() {
-		Money money_1 = new Money(1000, RoundingMode.UP);
-		Money money_2 = new Money(1000, RoundingMode.DOWN);
+		money_1 = new Money(1000, RoundingMode.UP);
+		money_2 = new Money(1000, RoundingMode.DOWN);
 		assertNotEquals(money_1, money_2);
 	}
-	
+
 	@Test
-	public void testMoneySubtraction() {
+	public void testMoneyOperations() {
 		Money money_1 = new Money(1000);
 		Money money_2 = new Money(1000);
-		Money money_3 = new Money(0);
-		assertEquals(money_1.subtract(money_2), money_3);
+		assertEquals(money_1.subtract(money_2).getAmount(), BigDecimal.valueOf(0));
+		assertEquals(money_1.add(money_2).getAmount(), BigDecimal.valueOf(2000));
+	}
+
+	@Test
+	public void testMoneyAdditionDiffrentCurrency() {
+		Money money_1 = new Money(1000, Currency.getInstance("EUR"));
+		Money money_2 = new Money(1000, Currency.getInstance("USD"));
+		assertNull(money_1.add(money_2));
+	}
+	
+	@Test
+	public void testMoneyToString() {
+		Money money_1 = new Money(1000, Currency.getInstance("USD"));
+		String moneyStr = money_1.toString();
+		assertTrue(moneyStr.equals("1000 $"));
 	}
 }
-

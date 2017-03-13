@@ -66,19 +66,68 @@ public class Money implements Comparable<Money> {
 	}
 	
 	public Money add(Money money){
-		return null;
+		if(money.currency != this.currency || money.mode != this.mode)
+			return null;
+		else {
+			return new Money(this.amount.add(money.amount), this.currency, this.mode);
+		}
 	}
 	
 	public Money subtract(Money money){
-		return null;
+		if(money.currency != this.currency || money.mode != this.mode)
+			return null;
+		else {
+			return new Money(this.amount.subtract(money.amount), this.currency, this.mode);
+		}
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((amount == null) ? 0 : amount.hashCode());
+		result = prime * result + ((currency == null) ? 0 : currency.hashCode());
+		result = prime * result + ((mode == null) ? 0 : mode.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Money other = (Money) obj;
+		if (amount == null) {
+			if (other.amount != null)
+				return false;
+		} else if (!amount.equals(other.amount))
+			return false;
+		if (currency == null) {
+			if (other.currency != null)
+				return false;
+		} else if (!currency.equals(other.currency))
+			return false;
+		if (mode != other.mode)
+			return false;
+		return true;
 	}
 
 	@Override
 	public String toString() {
-		return amount + " " + currency;
+		return amount + " " + currency.getSymbol();
 	}
 
-	public int compareTo(Money money) {
+	public int compareTo(Money arg0) {
+		int result = arg0.amount.compareTo(this.amount);
+		if(result != 0) return result;
+		result = arg0.currency.getCurrencyCode().compareTo(this.currency.getCurrencyCode());
+		if(result != 0) return result;
+		result = arg0.mode.compareTo(this.mode);
+		if(result != 0) return result;
 		return 0;
 	}
+
 }
