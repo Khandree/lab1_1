@@ -25,7 +25,7 @@ public class OfferItem {
 
 	private int quantity;
 
-	private BigDecimal totalCost;
+	private Money totalCost;
 
 	private String currency;
 
@@ -74,9 +74,9 @@ public class OfferItem {
 //		return productType;
 //	}
 
-	public BigDecimal getTotalCost() {
-		return totalCost;
-	}
+//	public BigDecimal getTotalCost() {
+//		return totalCost;
+//	}
 
 	public String getTotalCostCurrency() {
 		return currency;
@@ -182,18 +182,19 @@ public class OfferItem {
 			return false;
 
 		BigDecimal max, min;
-		if (totalCost.compareTo(other.totalCost) > 0) {
-			max = totalCost;
-			min = other.totalCost;
-		} else {
-			max = other.totalCost;
-			min = totalCost;
-		}
+//		if (totalCost.compareTo(other.totalCost) > 0) {
+//			max = totalCost;
+//			min = other.totalCost;
+//		} else {
+//			max = other.totalCost;
+//			min = totalCost;
+//		}
 
-		BigDecimal difference = max.subtract(min);
-		BigDecimal acceptableDelta = max.multiply(new BigDecimal(delta / 100));
+//		BigDecimal difference = max.subtract(min);
+//		BigDecimal acceptableDelta = max.multiply(new BigDecimal(delta / 100));
 
-		return acceptableDelta.compareTo(difference) > 0;
+//		return acceptableDelta.compareTo(difference) > 0;
+		return false;
 	}
 
 }

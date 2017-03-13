@@ -81,6 +81,20 @@ public class Money implements Comparable<Money> {
 		}
 	}
 	
+	public Money multiply(Money money){
+		if(money.currency != this.currency || money.mode != this.mode)
+			return null;
+		else {
+			return new Money(this.amount.multiply(money.amount), this.currency, this.mode);
+		}
+	}
+	public Money divide(int money){
+		if(money == 0)
+			return null;
+		else {
+			return new Money(this.amount.divide(BigDecimal.valueOf(money)), this.currency, this.mode);
+		}
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
