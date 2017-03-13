@@ -44,4 +44,10 @@ public class Discount {
 		}
 	}
 
+	@Override
+	public String toString() {
+		return "Discount [discountCause=" + discountCause + ", valueDiscount=" + valueDiscount + ", type=" + type.name()
+				+ ", procentageDiscount=" + procentageDiscount + "]";
+	}
+
 }

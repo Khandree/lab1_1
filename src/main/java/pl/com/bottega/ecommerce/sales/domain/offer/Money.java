@@ -85,7 +85,8 @@ public final class Money implements Comparable<Money> {
 		if (money.currency != this.currency || money.mode != this.mode)
 			return null;
 		else {
-			return new Money(this.amount.subtract(money.amount), this.currency, this.mode);
+			BigDecimal ref = amount.subtract(money.amount);
+			return new Money(ref, this.currency, this.mode);
 		}
 	}
 
@@ -151,15 +152,19 @@ public final class Money implements Comparable<Money> {
 	}
 
 	public int compareTo(Money arg0) {
-		int result = arg0.amount.compareTo(this.amount);
+		int result = this.amount.compareTo(arg0.amount);
+		log.info("Compare Amount:" + result);
 		if (result != 0)
 			return result;
-		result = arg0.currency.getCurrencyCode().compareTo(this.currency.getCurrencyCode());
+		result = this.currency.getCurrencyCode().compareTo(arg0.currency.getCurrencyCode());
+		log.info("Compare Currency:" + result);
 		if (result != 0)
 			return result;
-		result = arg0.mode.compareTo(this.mode);
+		result = this.mode.compareTo(arg0.mode);
+		log.info("Compare Mode:" + result);
 		if (result != 0)
 			return result;
+		if ( this == arg0 ) return 0;
 		return 0;
 	}
 

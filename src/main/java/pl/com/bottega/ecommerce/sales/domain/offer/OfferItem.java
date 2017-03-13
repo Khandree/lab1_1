@@ -17,22 +17,20 @@ package pl.com.bottega.ecommerce.sales.domain.offer;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.logging.Logger;
 
 public class OfferItem {
 
 	// product
-
+	private final static Logger log = Logger.getLogger("OfferItemLogger");
 	private Product product;
 	private int quantity;
 	private Money totalCost;
 	private Discount discount;
 
-	// public OfferItem(String productId, BigDecimal productPrice, String
-	// productName,
-	// Date productSnapshotDate, String productType, int quantity) {
-	// this(productId, productPrice, productName, productSnapshotDate,
-	// productType, quantity, null, null);
-	// }
+	public OfferItem(Product product, int quantity) {
+		this(product, quantity, null);
+	}
 
 	public OfferItem(Product product, int quantity, Discount discount) {
 		this.product = product;
@@ -41,15 +39,15 @@ public class OfferItem {
 		countTotalCost();
 	}
 
-	// two ways to discout, for  
-	private Money countTotalCost(){
-		if(discount != null)
+	// two ways to discout, for
+	private Money countTotalCost() {
+		if (discount != null)
 			totalCost = discount.price(product.getProductPrice()).multiply(quantity);
 		else
 			totalCost = product.getProductPrice().multiply(quantity);
 		return totalCost;
 	}
-	
+
 	public Money getTotalCost() {
 		return totalCost;
 	}
@@ -60,6 +58,10 @@ public class OfferItem {
 
 	public int getQuantity() {
 		return quantity;
+	}
+
+	public Product getProduct() {
+		return product;
 	}
 
 	@Override
@@ -109,21 +111,28 @@ public class OfferItem {
 		if (quantity != other.quantity)
 			return false;
 
-		BigDecimal max, min;
-		// if (totalCost.compareTo(other.totalCost) > 0) {
-		// max = totalCost;
-		// min = other.totalCost;
-		// } else {
-		// max = other.totalCost;
-		// min = totalCost;
-		// }
+		Money max, min;
+		if (totalCost.compareTo(other.totalCost) > 0) {
+			max = totalCost;
+			min = other.totalCost;
+		} else {
+			max = other.totalCost;
+			min = totalCost;
+		}
 
-		// BigDecimal difference = max.subtract(min);
-		// BigDecimal acceptableDelta = max.multiply(new BigDecimal(delta /
-		// 100));
+		Money difference = max.subtract(min);
+		Money acceptableDelta = max.multiply(delta / 100);
+		log.info("OfferItem sameAs difference: "+difference);
+		log.info("OfferItem sameAs acceptableDelta: "+acceptableDelta);
+		boolean result = acceptableDelta.compareTo(difference) > 0;
+		log.info("OfferItem sameAs: "+result + "["+this.toString() + " : "+other.toString()+"]");
+		return result;
+	}
 
-		// return acceptableDelta.compareTo(difference) > 0;
-		return false;
+	@Override
+	public String toString() {
+		return "OfferItem [product=" + product + ", quantity=" + quantity + ", totalCost=" + totalCost + ", discount="
+				+ discount + "]";
 	}
 
 }

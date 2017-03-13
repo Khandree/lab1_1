@@ -2,13 +2,14 @@ package pl.com.bottega.ecommerce.sales.domain.offer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class Offer {
-private List<OfferItem> availabeItems = new ArrayList<OfferItem>();
-	
+	private final static Logger log = Logger.getLogger("OfferLogger");
+	private List<OfferItem> availabeItems = new ArrayList<OfferItem>();
+
 	private List<OfferItem> unavailableItems = new ArrayList<OfferItem>();
-	
-	
+
 	public Offer(List<OfferItem> availabeItems, List<OfferItem> unavailableItems) {
 		this.availabeItems = availabeItems;
 		this.unavailableItems = unavailableItems;
@@ -17,7 +18,7 @@ private List<OfferItem> availabeItems = new ArrayList<OfferItem>();
 	public List<OfferItem> getAvailabeItems() {
 		return availabeItems;
 	}
-	
+
 	public List<OfferItem> getUnavailableItems() {
 		return unavailableItems;
 	}
@@ -26,8 +27,7 @@ private List<OfferItem> availabeItems = new ArrayList<OfferItem>();
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((availabeItems == null) ? 0 : availabeItems.hashCode());
+		result = prime * result + ((availabeItems == null) ? 0 : availabeItems.hashCode());
 		return result;
 	}
 
@@ -51,31 +51,31 @@ private List<OfferItem> availabeItems = new ArrayList<OfferItem>();
 	/**
 	 * 
 	 * @param seenOffer
-	 * @param delta acceptable difference in percent
+	 * @param delta
+	 *            acceptable difference in percent
 	 * @return
 	 */
 	public boolean sameAs(Offer seenOffer, double delta) {
-		if (! (availabeItems.size() == seenOffer.availabeItems.size()))
+		if (!(availabeItems.size() == seenOffer.availabeItems.size()))
 			return false;
-		
-//		for (OfferItem item : availabeItems) {
-//			OfferItem sameItem = seenOffer.findItem(item.getProductId());
-//			if (sameItem == null)
-//				return false;
-//			if (!sameItem.sameAs(item, delta))
-//				return false;
-//		}
-		
+
+		for (OfferItem item : availabeItems) {
+			OfferItem sameItem = seenOffer.findItem(item.getProduct().getProductId());
+			if (sameItem == null)
+				return false;
+			if (!sameItem.sameAs(item, delta))
+				return false;
+		}
+
 		return true;
 	}
 
 	private OfferItem findItem(String productId) {
-//		for (OfferItem item : availabeItems){
-//			if (item.getProductId().equals(productId))
-//				return item;
-//		}
+		for (OfferItem item : availabeItems) {
+			if (item.getProduct().getProductId().equals(productId))
+				return item;
+		}
 		return null;
 	}
-	
 
 }
