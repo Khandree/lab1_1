@@ -20,7 +20,12 @@ public class TestMoney {
 		Money money_2 = new Money(1000);
 		assertEquals(money_1, money_2);
 	}
-
+	@Test
+	public void testIfAreSameEqualDefaultModifiers() {
+		Money money_1 = new Money(1000);
+		Money money_2 = new Money(1000);
+		assertTrue(money_1.equals(money_2));
+	}
 	@Test
 	public void testCompareDefaultModifiers() {
 		Money money_1 = new Money(1000);

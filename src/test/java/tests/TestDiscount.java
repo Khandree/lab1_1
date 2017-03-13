@@ -13,10 +13,14 @@ public class TestDiscount {
 
 	@Test
 	public void testDiscountValue(){
-		Discount discount = new Discount(new Money(10), DiscountType.VALUE);
-		Assert.assertEquals(discount.price(new Money(100)).getAmount(), BigDecimal.valueOf(90));
-		Discount discount_2 = new Discount(new Money(10), DiscountType.PROCENTAGE);
-		Assert.assertEquals(discount.price(new Money(100)).getAmount(), BigDecimal.valueOf(90));
+		Discount discount = new Discount(new Money(10));
+		Money afterDiscountValue = new Money(90);
+		Assert.assertEquals(discount.price(new Money(100)), afterDiscountValue);
 	}
-	
+	@Test
+	public void testDiscountProcentage(){
+		Discount discount = new Discount(10);
+		Money afterDiscountValue = discount.price(new Money(100));
+		Assert.assertEquals(discount.price(new Money(100)), afterDiscountValue);
+	}
 }

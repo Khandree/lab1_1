@@ -8,13 +8,14 @@ package pl.com.bottega.ecommerce.sales.domain.offer;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Currency;
+import java.util.logging.Logger;
 
 /**
  *
  * @author 187472
  */
 public class Money implements Comparable<Money> {
-
+	private final static Logger log = Logger.getLogger("MoneyLogger");
 	private BigDecimal amount;
 	private final Currency currency;
 	private final Currency DEFAULT_CURRENCY = Currency.getInstance("PLN");
@@ -29,6 +30,7 @@ public class Money implements Comparable<Money> {
 		this.amount = amount;
 		currency = DEFAULT_CURRENCY;
 		mode = DEFAULT_MODE;
+		this.amount.setScale(currency.getDefaultFractionDigits(), mode);
 	}
 
 	public Money(BigDecimal amount, RoundingMode mode) {
@@ -65,6 +67,19 @@ public class Money implements Comparable<Money> {
 		this(BigDecimal.valueOf(i), up);
 	}
 	
+	public Money(double d) {
+		this.amount = BigDecimal.valueOf(d);
+		currency = DEFAULT_CURRENCY;
+		mode = DEFAULT_MODE;
+	}
+
+	public Money(Money subtract) {
+		this.amount = subtract.amount;
+		this.currency = subtract.currency;
+		this.mode = subtract.mode;
+		this.amount.setScale(currency.getDefaultFractionDigits(), mode);
+	}
+
 	public Money add(Money money){
 		if(money.currency != this.currency || money.mode != this.mode)
 			return null;
@@ -88,11 +103,20 @@ public class Money implements Comparable<Money> {
 			return new Money(this.amount.multiply(money.amount), this.currency, this.mode);
 		}
 	}
+	public Money multiply(double money){
+		if(Double.isNaN(money))
+			return null;
+		else {
+			BigDecimal def = new BigDecimal(money);
+			def.setScale(currency.getDefaultFractionDigits(), mode);
+			return new Money(this.amount.multiply(def));
+		}
+	}
 	public Money divide(int money){
 		if(money == 0)
 			return null;
 		else {
-			return new Money(this.amount.divide(BigDecimal.valueOf(money)), this.currency, this.mode);
+			return new Money(this.amount.divide(BigDecimal.valueOf(money)));
 		}
 	}
 	@Override
@@ -114,19 +138,13 @@ public class Money implements Comparable<Money> {
 		if (getClass() != obj.getClass())
 			return false;
 		Money other = (Money) obj;
-		if (amount == null) {
-			if (other.amount != null)
-				return false;
-		} else if (!amount.equals(other.amount))
-			return false;
-		if (currency == null) {
-			if (other.currency != null)
-				return false;
-		} else if (!currency.equals(other.currency))
-			return false;
-		if (mode != other.mode)
-			return false;
-		return true;
+		boolean result = (this.amount.equals(other.amount) );
+		log.info("Amount equals: "+result +" ["+this.amount+" : "+other.amount+"]");
+	    result = result && (this.currency.equals(other.currency) );
+	    log.info("Currency equals: "+result);
+	    result = result && (this.mode == other.mode);
+	    log.info("Mode equals: "+result);
+	    return result;
 	}
 
 	@Override

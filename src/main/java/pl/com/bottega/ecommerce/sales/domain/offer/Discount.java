@@ -14,24 +14,27 @@ import java.math.BigDecimal;
 public class Discount {
 
 	private String discountCause;
-	private final Money discount;
+	private Money valueDiscount;
 	private final DiscountType type;
+	private double procentageDiscount;
 
-	public Discount(Money discountPrice, DiscountType type) {
-		super();
-		this.discount = discountPrice;
-		this.type = type;
+	public Discount(Money discountValue) {
+		this.valueDiscount = discountValue;
+		this.type = DiscountType.VALUE;
 	}
-
-	public Money price(Money currentPrice){
-		switch(type){
+	public Discount(double procentageDiscount) {
+		this.procentageDiscount = procentageDiscount;
+		this.type = DiscountType.PROCENTAGE;
+	}
+	public Money price(Money currentPrice) {
+		switch (type) {
 		case PROCENTAGE:
-			return new Money(currentPrice.subtract(currentPrice.multiply(discount).divide(100)).getAmount());
+			return new Money(currentPrice.subtract(currentPrice.multiply(procentageDiscount).divide(100)));
 		case VALUE:
-			return new Money(currentPrice.subtract(discount).getAmount());
+			return new Money(currentPrice.subtract(valueDiscount));
 		default:
 			return currentPrice;
 		}
 	}
-	
+
 }
