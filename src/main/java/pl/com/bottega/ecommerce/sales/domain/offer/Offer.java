@@ -21,11 +21,14 @@ public class Offer {
 		return unavailableItems;
 	}
 
+	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((availabeItems == null) ? 0 : availabeItems.hashCode());
+		result = prime * result + ((unavailableItems == null) ? 0 : unavailableItems.hashCode());
 		return result;
 	}
 
@@ -42,6 +45,11 @@ public class Offer {
 			if (other.availabeItems != null)
 				return false;
 		} else if (!availabeItems.equals(other.availabeItems))
+			return false;
+		if (unavailableItems == null) {
+			if (other.unavailableItems != null)
+				return false;
+		} else if (!unavailableItems.equals(other.unavailableItems))
 			return false;
 		return true;
 	}
