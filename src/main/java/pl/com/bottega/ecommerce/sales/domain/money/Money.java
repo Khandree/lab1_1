@@ -1,11 +1,11 @@
 package pl.com.bottega.ecommerce.sales.domain.money;
 
-        import org.apache.commons.lang3.builder.EqualsBuilder;
-        import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-        import java.math.BigDecimal;
-        import java.math.RoundingMode;
-        import java.util.Currency;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Currency;
 
 /**
  * Created by RFran on 14.03.2017.
@@ -66,9 +66,21 @@ public class Money {
     }
 
     public Money substract(Money money){
-        //TODO Add check for currency of money to substract compared to current one
+        if(!isCompatibile(money)){
+            throw new IllegalArgumentException("Currency you tried to substract doesn't match!");
+        }
         return new Money(money.getCode(),denomination.subtract(money.denomination));
     }
+
+    private boolean isZero(BigDecimal valueToTest) {
+        return BigDecimal.ZERO.compareTo(valueToTest) == 0;
+    }
+
+    private boolean isCompatibile(Money money) {
+        return isZero(denomination) || isZero(money.denomination) || code.equals(money.getCode());
+    }
+
+
 
     @Override
     public String toString() {
@@ -96,4 +108,6 @@ public class Money {
                 .append(denomination)
                 .toHashCode();
     }
+
+
 }
