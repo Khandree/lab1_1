@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Offer {
-private List<OfferItem> availabeItems = new ArrayList<OfferItem>();
-	
+	private List<OfferItem> availabeItems = new ArrayList<OfferItem>();
+
 	private List<OfferItem> unavailableItems = new ArrayList<OfferItem>();
-	
-	
+
 	public Offer(List<OfferItem> availabeItems, List<OfferItem> unavailableItems) {
 		this.availabeItems = availabeItems;
 		this.unavailableItems = unavailableItems;
@@ -17,17 +16,19 @@ private List<OfferItem> availabeItems = new ArrayList<OfferItem>();
 	public List<OfferItem> getAvailabeItems() {
 		return availabeItems;
 	}
-	
+
 	public List<OfferItem> getUnavailableItems() {
 		return unavailableItems;
 	}
+
+	
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((availabeItems == null) ? 0 : availabeItems.hashCode());
+		result = prime * result + ((availabeItems == null) ? 0 : availabeItems.hashCode());
+		result = prime * result + ((unavailableItems == null) ? 0 : unavailableItems.hashCode());
 		return result;
 	}
 
@@ -45,37 +46,42 @@ private List<OfferItem> availabeItems = new ArrayList<OfferItem>();
 				return false;
 		} else if (!availabeItems.equals(other.availabeItems))
 			return false;
+		if (unavailableItems == null) {
+			if (other.unavailableItems != null)
+				return false;
+		} else if (!unavailableItems.equals(other.unavailableItems))
+			return false;
 		return true;
 	}
 
 	/**
 	 * 
 	 * @param seenOffer
-	 * @param delta acceptable difference in percent
+	 * @param delta
+	 *            acceptable difference in percent
 	 * @return
 	 */
 	public boolean sameAs(Offer seenOffer, double delta) {
-		if (! (availabeItems.size() == seenOffer.availabeItems.size()))
+		if (!(availabeItems.size() == seenOffer.availabeItems.size()))
 			return false;
-		
+
 		for (OfferItem item : availabeItems) {
-			OfferItem sameItem = seenOffer.findItem(item.getProductId());
+			OfferItem sameItem = seenOffer.findItem(item.getProduct().getProductId());
 			if (sameItem == null)
 				return false;
 			if (!sameItem.sameAs(item, delta))
 				return false;
 		}
-		
+
 		return true;
 	}
 
 	private OfferItem findItem(String productId) {
-		for (OfferItem item : availabeItems){
-			if (item.getProductId().equals(productId))
+		for (OfferItem item : availabeItems) {
+			if (item.getProduct().getProductId().equals(productId))
 				return item;
 		}
 		return null;
 	}
-	
 
 }
