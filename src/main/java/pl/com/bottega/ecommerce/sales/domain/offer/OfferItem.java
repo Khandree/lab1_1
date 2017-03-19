@@ -38,18 +38,16 @@ public class OfferItem {
 	private String currency;
 
 	// discount
-	private String discountCause;
-
-	private BigDecimal discount;
+	private Discount discount;
 
 	public OfferItem(String productId, BigDecimal productPrice, String productName,
-			Date productSnapshotDate, String productType, int quantity) {
-		this(productId, productPrice, productName, productSnapshotDate, productType, quantity, null, null);
+					 Date productSnapshotDate, String productType, int quantity) {
+		this(productId, productPrice, productName, productSnapshotDate, productType, quantity, null);
 	}
 
 	public OfferItem(String productId, BigDecimal productPrice, String productName,
-			Date productSnapshotDate, String productType, int quantity,
-			BigDecimal discount, String discountCause) {
+					 Date productSnapshotDate, String productType, int quantity,
+					 Discount discount) {
 		this.productId = productId;
 		this.productPrice = productPrice;
 		this.productName = productName;
@@ -58,11 +56,13 @@ public class OfferItem {
 
 		this.quantity = quantity;
 		this.discount = discount;
-		this.discountCause = discountCause;
 
 		BigDecimal discountValue = new BigDecimal(0);
-		if (discount != null)
-			discountValue = discountValue.subtract(discount);
+		if (discount != null) {
+			discountValue = discount.money().getValue();
+		} else {
+			discountValue = BigDecimal.ZERO;
+		}
 
 		this.totalCost = new Money(productPrice.multiply(new BigDecimal(quantity)).subtract(discountValue), null);
 	}
@@ -70,19 +70,19 @@ public class OfferItem {
 	public String getProductId() {
 		return productId;
 	}
-	
+
 	public BigDecimal getProductPrice() {
 		return productPrice;
 	}
-	
+
 	public String getProductName() {
 		return productName;
 	}
-	
+
 	public Date getProductSnapshotDate() {
 		return productSnapshotDate;
 	}
-	
+
 	public String getProductType() {
 		return productType;
 	}
@@ -95,12 +95,8 @@ public class OfferItem {
 		return currency;
 	}
 
-	public BigDecimal getDiscount() {
+	public Discount getDiscount() {
 		return discount;
-	}
-
-	public String getDiscountCause() {
-		return discountCause;
 	}
 
 	public int getQuantity() {
@@ -166,7 +162,7 @@ public class OfferItem {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param item
 	 * @param delta
 	 *            acceptable percentage difference
