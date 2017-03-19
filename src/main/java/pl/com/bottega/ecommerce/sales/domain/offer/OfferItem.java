@@ -33,7 +33,7 @@ public class OfferItem {
 
 	private int quantity;
 
-	private BigDecimal totalCost;
+	private Money totalCost;
 
 	private String currency;
 
@@ -64,8 +64,7 @@ public class OfferItem {
 		if (discount != null)
 			discountValue = discountValue.subtract(discount);
 
-		this.totalCost = productPrice
-				.multiply(new BigDecimal(quantity)).subtract(discountValue);
+		this.totalCost = new Money(productPrice.multiply(new BigDecimal(quantity)).subtract(discountValue), null);
 	}
 
 	public String getProductId() {
@@ -88,7 +87,7 @@ public class OfferItem {
 		return productType;
 	}
 
-	public BigDecimal getTotalCost() {
+	public Money getTotalCost() {
 		return totalCost;
 	}
 
@@ -196,12 +195,12 @@ public class OfferItem {
 			return false;
 
 		BigDecimal max, min;
-		if (totalCost.compareTo(other.totalCost) > 0) {
-			max = totalCost;
-			min = other.totalCost;
+		if (totalCost.getValue().compareTo(other.totalCost.getValue()) > 0) {
+			max = totalCost.getValue();
+			min = other.totalCost.getValue();
 		} else {
-			max = other.totalCost;
-			min = totalCost;
+			max = other.totalCost.getValue();
+			min = totalCost.getValue();
 		}
 
 		BigDecimal difference = max.subtract(min);
