@@ -6,13 +6,9 @@ public class Product {
     // product
 
     private String id;
-
     private Money money;
-
     private String name;
-
     private Date snapshotDate;
-
     private String type;
 
     public Product(String id, Money money, String name, Date snapshotDate, String type) {

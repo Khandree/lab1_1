@@ -4,18 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Offer {
-private List<OfferItem> availabeItems = new ArrayList<OfferItem>();
+private List<OfferItem> availableItems = new ArrayList<OfferItem>();
 	
 	private List<OfferItem> unavailableItems = new ArrayList<OfferItem>();
 	
 	
 	public Offer(List<OfferItem> availabeItems, List<OfferItem> unavailableItems) {
-		this.availabeItems = availabeItems;
+		this.availableItems = availabeItems;
 		this.unavailableItems = unavailableItems;
 	}
 
-	public List<OfferItem> getAvailabeItems() {
-		return availabeItems;
+	public List<OfferItem> getAvailableItems() {
+		return availableItems;
 	}
 	
 	public List<OfferItem> getUnavailableItems() {
@@ -27,7 +27,7 @@ private List<OfferItem> availabeItems = new ArrayList<OfferItem>();
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((availabeItems == null) ? 0 : availabeItems.hashCode());
+				+ ((availableItems == null) ? 0 : availableItems.hashCode());
 		return result;
 	}
 
@@ -40,10 +40,10 @@ private List<OfferItem> availabeItems = new ArrayList<OfferItem>();
 		if (getClass() != obj.getClass())
 			return false;
 		Offer other = (Offer) obj;
-		if (availabeItems == null) {
-			if (other.availabeItems != null)
+		if (availableItems == null) {
+			if (other.availableItems != null)
 				return false;
-		} else if (!availabeItems.equals(other.availabeItems))
+		} else if (!availableItems.equals(other.availableItems))
 			return false;
 		return true;
 	}
@@ -55,10 +55,10 @@ private List<OfferItem> availabeItems = new ArrayList<OfferItem>();
 	 * @return
 	 */
 	public boolean sameAs(Offer seenOffer, double delta) {
-		if (! (availabeItems.size() == seenOffer.availabeItems.size()))
+		if (! (availableItems.size() == seenOffer.availableItems.size()))
 			return false;
 		
-		for (OfferItem item : availabeItems) {
+		for (OfferItem item : availableItems) {
 			OfferItem sameItem = seenOffer.findItem(item.getProduct().getId());
 			if (sameItem == null)
 				return false;
@@ -70,7 +70,7 @@ private List<OfferItem> availabeItems = new ArrayList<OfferItem>();
 	}
 
 	private OfferItem findItem(String productId) {
-		for (OfferItem item : availabeItems){
+		for (OfferItem item : availableItems){
 			if (item.getProduct().getId().equals(productId))
 				return item;
 		}

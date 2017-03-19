@@ -22,12 +22,8 @@ public class OfferItem {
 
 	// product
 	private Product product;
-
 	private int quantity;
-
 	private Money totalCost;
-
-	private String currency;
 
 	// discount
 	private Discount discount;
@@ -61,10 +57,6 @@ public class OfferItem {
 
 	public Money getTotalCost() {
 		return totalCost;
-	}
-
-	public String getTotalCostCurrency() {
-		return currency;
 	}
 
 	public Discount getDiscount() {
