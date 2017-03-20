@@ -6,16 +6,16 @@ public class Discount {
     // discount
     private String discountCause;
 
-    private Money money;
+    private Money value;
 
 
     public Discount (Money money, String discountCause) {
-        this.money = money;
+        this.value = money;
         this.discountCause = discountCause;
     }
 
     public Money money(){
-        return money;
+        return value;
     }
 
     public String getDiscountCause(){

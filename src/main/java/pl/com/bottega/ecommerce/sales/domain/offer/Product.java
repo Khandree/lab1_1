@@ -6,14 +6,14 @@ public class Product {
     // product
 
     private String id;
-    private Money money;
+    private Money price;
     private String name;
     private Date snapshotDate;
     private String type;
 
-    public Product(String id, Money money, String name, Date snapshotDate, String type) {
+    public Product(String id, Money price, String name, Date snapshotDate, String type) {
         this.id = id;
-        this.money = money;
+        this.price = price;
         this.name = name;
         this.snapshotDate = snapshotDate;
         this.type = type;
@@ -25,7 +25,7 @@ public class Product {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((money == null) ? 0 : money.hashCode());
+        result = prime * result + ((price == null) ? 0 : price.hashCode());
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         result = prime * result + ((snapshotDate == null) ? 0 : snapshotDate.hashCode());
         result = prime * result + ((type == null) ? 0 : type.hashCode());
@@ -41,10 +41,10 @@ public class Product {
         if (getClass() != obj.getClass())
             return false;
         Product other = (Product) obj;
-        if (money == null) {
-            if (other.money != null)
+        if (price == null) {
+            if (other.price != null)
                 return false;
-        } else if (!money.equals(other.money))
+        } else if (!price.equals(other.price))
             return false;
         if (name == null) {
             if (other.name != null)
@@ -68,8 +68,8 @@ public class Product {
         return id;
     }
 
-    public Money getMoney() {
-        return money;
+    public Money getPrice() {
+        return price;
     }
 
     public String getName() {
